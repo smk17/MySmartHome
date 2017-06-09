@@ -1,0 +1,325 @@
+package com.smk17.mysmarthome.fragment.systemsettings;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.ref.WeakReference;
+import java.text.DecimalFormat;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import com.pgyersdk.javabean.AppBean;
+import com.pgyersdk.update.PgyUpdateManager;
+import com.pgyersdk.update.UpdateManagerListener;
+import com.smk17.android.tools.ToolAlert;
+import com.smk17.android.tools.ToolGetVersion;
+import com.smk17.android.tools.ToolString;
+import com.smk17.mysmarthome.Constant;
+import com.smk17.mysmarthome.R;
+import com.smk17.mysmarthome.Utils.HttpUtils;
+import com.yh.materialdesign.dialog.MaterialDialog;
+import com.yh.materialdesign.views.LayoutDropdownButton;
+
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
+import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.View.OnClickListener;
+import android.widget.TextView;
+
+@SuppressWarnings("deprecation")
+public class FragmentAbout extends SystemFragment {
+	
+//	private static final String TAG = "Update";
+	private int[] id = { R.id.about_item_common_problem, R.id.about_item_feedback };
+	private MaterialDialog mLoadDialog ;
+	private MyHandler handler = new MyHandler(this);
+	private int newVerCode = 0;
+	private static double count = .0;
+	private String newVerName = "";
+	private String apkUrl = "";
+	private String mMsg = "";
+//	private boolean isNewVersion = false;
+	private LayoutDropdownButton versionUpdateBtn;
+	public static final int[] AboutTitleNames = new int[] {R.string.common_problem,R.string.feedback };
+	
+	public static final FragmentAbout newInstance(){
+		FragmentAbout fragment = new FragmentAbout();
+		return fragment;		
+	}	
+	
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		View view = inflater.inflate(R.layout.material_fragment_about, container, false);  	
+		for (int i = 0; i < id.length; i++) {
+			View v = view.findViewById(id[i]);
+			TextView tv = (TextView) v.findViewById(R.id.tv_item_set_name);			
+            tv.setText(AboutTitleNames[i]);
+		}		
+		TextView mVersionName = (TextView)view.findViewById(R.id.tv_version_name);
+		mVersionName.setText(getVersion());
+		versionUpdateBtn = (LayoutDropdownButton)view.findViewById(R.id.about_item_version_update);
+		versionUpdateBtn.setText(R.string.version_update);
+		versionUpdateBtn.setReason(R.string.version_detection);
+		versionUpdateBtn.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {				
+				doNewVersionUpdate();
+			}
+		});
+		mLoadDialog = new MaterialDialog(getActivity()).setShowProgress(true);		
+		new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				if (getServerVerCode()) {
+					int vercode = ToolGetVersion.getVerCode();
+					Message msg = new Message();	
+					msg.what = Constant.STATUS_ID;						
+					if (newVerCode > vercode) {
+						msg.obj  = 0;									
+//						isNewVersion = true;
+					} else {
+						msg.obj  = 1;
+//						isNewVersion = false;
+					}
+					handler.sendMessage(msg);
+				}
+			}
+		}).start();
+		return view;
+	}
+	
+	/**
+	 * 获取版本号
+	 * @return 当前应用的版本号
+	 */
+    protected String getVersion() {    	
+    	String version = ToolGetVersion.getVerName();
+    	if(ToolString.isNoBlankAndNoNull(version)){
+    		return this.getString(R.string.version_name) + version;    		
+    	}else{
+    		return this.getString(R.string.can_not_find_version_name);
+    	}
+	}
+    
+    
+    private boolean getServerVerCode() {
+		try {
+			String verjson = HttpUtils.getContent(Constant.URL_VERJSON_SERVER);
+			JSONArray array = new JSONArray(verjson);			
+			if (array.length() > 0) {
+				JSONObject obj = array.getJSONObject(0);
+				try {
+					newVerCode = Integer.parseInt(obj.getString("verCode"));
+					newVerName = obj.getString("verName");
+					apkUrl = obj.getString("apkUrl");
+					mMsg = obj.getString("info");
+				} catch (Exception e) {
+					newVerCode = -1;
+					newVerName = "";
+					apkUrl = "";
+					mMsg = "";
+					return false;
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
+
+	private void doNewVersionUpdate() {
+		final File file = new File(Environment.getExternalStoragePublicDirectory (Environment.DIRECTORY_DOWNLOADS),	
+				String.format(Constant.UPDATE_SAVENAME, newVerName));
+		String positiveName = getString(R.string.update_now);
+		StringBuffer sb = new StringBuffer();
+		sb.append(getString(R.string.version_number_name));
+		sb.append(newVerName);
+		sb.append(" \n");
+		sb.append(mMsg);		
+		if(file.exists()){
+			sb.append(" \n");
+			sb.append(getString(R.string.new_version_download));
+			positiveName = getString(R.string.update_download_now);
+		}
+		if(getActivity() !=null){
+			final MaterialDialog alert = new MaterialDialog(getActivity());
+			alert.setTitle(R.string.new_version_title).setMessage(sb.toString())
+					.setCanceledOnTouchOutside(false).setCancelable(true)
+					.setPositiveButton(positiveName, new OnClickListener() {
+						
+						@Override
+						public void onClick(View v) {	
+							downFile(file,apkUrl);
+							alert.dismiss();						
+						}
+					}).setNegativeButton(R.string.ignore, new OnClickListener() {
+						
+						@Override
+						public void onClick(View v) {
+							alert.dismiss();
+						}
+					}).show();
+		}		
+	}
+
+	private void downFile(final File file,final String url) {		
+		
+		new Thread() {
+			public void run() {				
+				HttpClient client = new DefaultHttpClient();
+				HttpGet get = new HttpGet(url);
+				HttpResponse response;				
+				try {
+					response = client.execute(get);
+					HttpEntity entity = response.getEntity();
+					final long length = entity.getContentLength();					
+					InputStream is = entity.getContent();
+					FileOutputStream fileOutputStream = null;								
+					if (is != null && Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {						
+						Log.d(getTag(), file.toString());
+						if (!Environment.getExternalStoragePublicDirectory (Environment.DIRECTORY_DOWNLOADS).exists()) {
+							Environment.getExternalStoragePublicDirectory (Environment.DIRECTORY_DOWNLOADS).mkdirs();
+						}
+						if(!file.exists()){
+							if(length >0){
+								Message msg = Message.obtain();
+								msg.what = Constant.ERROR_ID;
+								msg.obj = length;
+								handler.sendMessage(msg);
+								new Thread() {
+									public void run() {				
+										while(count >=0){
+											try {
+												Thread.sleep(100);
+											} catch (InterruptedException e) {
+												e.printStackTrace();
+											}
+											if(count > 0){
+												Message msg = Message.obtain();
+												msg.what = Constant.Refreshable_ID;
+												msg.obj = length;
+												handler.sendMessage(msg);
+											}					
+										}				
+										
+									}
+								}.start();
+							}
+							fileOutputStream = new FileOutputStream(file);
+
+							byte[] buf = new byte[1024];
+							int ch = -1;
+							count = .0;
+							while ((ch = is.read(buf)) != -1) {
+								fileOutputStream.write(buf, 0, ch);
+								count += ch;
+							}
+							fileOutputStream.flush();
+							if (fileOutputStream != null) {
+								fileOutputStream.close();
+							}
+						}
+						down(file);
+					}					
+				} catch (ClientProtocolException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+
+		}.start();
+
+	}
+
+	private void down(final File file) {
+		handler.post(new Runnable() {
+			public void run() {
+				count = -1.0;
+				if(mLoadDialog!=null&&mLoadDialog.isShow())
+					mLoadDialog.dismiss();
+				update(file);
+			}
+		});
+	}
+	
+	private void update(File file) {
+		Intent intent = new Intent(Intent.ACTION_VIEW);
+		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK); 
+		intent.setDataAndType(Uri.fromFile(file),
+				"application/vnd.android.package-archive");
+		startActivityForResult(intent,0);
+		//android.os.Process.killProcess(android.os.Process.myPid());
+	}
+	
+	private static class MyHandler extends Handler { 
+		//TODO MyHandler类定义
+		WeakReference<FragmentAbout> mActivity;
+		
+		public MyHandler(FragmentAbout Activity){
+			mActivity = new WeakReference<FragmentAbout>(Activity);
+		}
+				
+		@Override
+		public void handleMessage(Message msg) {			
+			final FragmentAbout theActivity = mActivity.get();
+			DecimalFormat decimalFormat =new DecimalFormat("0.00");
+			double  len = 0.00;
+			String slen = "";
+			if(msg.obj!=null){
+				switch (msg.what) {
+				case Constant.STATUS_ID:
+					int i = Integer.valueOf(msg.obj.toString());
+					if(i == 0){
+						theActivity.versionUpdateBtn.setReason(R.string.find_new_version);
+						theActivity.versionUpdateBtn.setEnabled(true);	
+					}else{
+						theActivity.versionUpdateBtn.setReason(R.string.is_new_version);
+						theActivity.versionUpdateBtn.setEnabled(false);	
+					}
+					break;
+				case Constant.ERROR_ID:					
+					len = Double.valueOf(msg.obj.toString());
+					slen = decimalFormat.format(len/1024000)+ "MB";
+					if(theActivity.mLoadDialog!=null&&!theActivity.mLoadDialog.isShow())
+						theActivity.mLoadDialog.setTitle(R.string.downloading).setProgress(0)
+						.setProgressText("0%,0MB/" + slen).setProgressMax(Integer.valueOf(msg.obj.toString())).show();
+					break;
+				case Constant.Refreshable_ID:
+					len = Double.valueOf(msg.obj.toString());
+					String percentage = ((int)(count/len*100)) + "%,";
+					slen = decimalFormat.format(len/1024000)+ "MB";
+					String scount = decimalFormat.format(count/1024000)+ "MB";
+					theActivity.mLoadDialog.setProgress((int)(count));
+					theActivity.mLoadDialog.setProgressText(percentage+scount+"/"+slen);
+					break;
+				default:
+					break;
+				}
+				
+			}
+		}
+	};
+}

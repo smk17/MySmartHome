@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.yh.materialdesign.views.ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:scrollbarThumbVertical="@color/title_background"
+    android:scrollbars="vertical"
+    android:orientation="vertical" >
+    <LinearLayout 
+        android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+    	android:background="@android:color/transparent" 
+    	android:orientation="vertical" >
+        
+        <include layout="@layout/material_item_systemsettings_top"/>
+    
+    	<include 
+        	android:id="@+id/item_add_terminal_device"
+        	android:visibility="gone"
+        	layout="@layout/material_item_systemsettings"/>    
+        	
+    	<include 
+        	android:id="@+id/item_add_main_device"
+        	layout="@layout/material_item_systemsettings"/>           
+
+    	<include 
+        	android:id="@+id/item_learn_device"
+        	layout="@layout/material_item_systemsettings"/>
+    	
+        <include 
+        	android:id="@+id/item_add_infrared_device"
+        	android:visibility="gone"
+       		layout="@layout/material_item_systemsettings"/>   
+       	        
+        <include layout="@layout/material_item_systemsettings_top"/>
+        
+        <include 
+        	android:id="@+id/item_terminal_device_management"
+        	layout="@layout/material_item_systemsettings"/>
+        
+        <include 
+        	android:id="@+id/item_main_device_management"
+        	layout="@layout/material_item_systemsettings"/>
+        
+        <include 
+        	android:id="@+id/item_zone_management"
+        	layout="@layout/material_item_systemsettings"/>
+        
+        <include 
+        	android:id="@+id/item_scene_management"
+        	layout="@layout/material_item_systemsettings"/>
+        
+        <include 
+        	android:id="@+id/item_camera_management"
+        	android:visibility="gone"
+        	layout="@layout/material_item_systemsettings"/>
+        
+        <include 
+        	android:id="@+id/item_infrared_device_management"
+        	android:visibility="gone"
+        	layout="@layout/material_item_systemsettings"/>
+        
+        
+        <include layout="@layout/material_item_systemsettings_top"/>
+                
+        <include 
+        	android:id="@+id/item_about"
+        	layout="@layout/material_item_systemsettings"/>
+        
+        
+    </LinearLayout>
+	
+
+</com.yh.materialdesign.views.ScrollView>

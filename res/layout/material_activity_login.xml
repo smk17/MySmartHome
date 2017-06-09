@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ViewFlipper xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/allFlipper"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/title_background"
+    android:orientation="vertical" >
+    
+    <RelativeLayout
+        android:id="@+id/rl_launcher"
+        android:layout_width="match_parent"
+    	android:layout_height="match_parent">
+    	<ImageView
+        android:id="@+id/iv_about"
+        android:layout_width="@dimen/DIMEN_125PX"
+        android:layout_height="@dimen/DIMEN_125PX"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:contentDescription="@string/app_name"
+        android:layout_marginTop="@dimen/DIMEN_59PX"
+        android:src="@drawable/ic_logo"/>
+    
+    <TextView
+        android:id="@+id/tv_app_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/iv_about"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/white"
+        android:textSize="@dimen/big_text_size" 
+        android:layout_marginTop="@dimen/DIMEN_24PX"
+        android:text="@string/app_name" />
+    
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:textColor="@color/white"
+        android:textSize="@dimen/reason_text_size" 
+        android:layout_marginBottom="@dimen/DIMEN_18PX"
+        android:text="@string/app_copyright" />
+     </RelativeLayout>
+    
+    <RelativeLayout
+        android:id="@+id/rl_main"
+        android:layout_width="match_parent"
+    	android:layout_height="match_parent"
+    	android:visibility="gone">
+    <LinearLayout 
+        android:id="@+id/ll_login_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/DIMEN_24PX"
+        android:focusable="true" 
+		android:focusableInTouchMode="true"
+        android:layout_margin="@dimen/DIMEN_16PX"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:orientation="vertical" >
+        
+        <com.yh.materialdesign.edittext.MaterialAutoCompleteTextView
+            android:id="@+id/met_username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/DIMEN_12PX"
+            android:hint="@string/login_username"
+            android:divider="@null"
+            android:inputType="textVisiblePassword"
+            android:imeOptions="actionNext"
+            android:nextFocusForward="@+id/met_password"
+            android:dropDownSelector="@drawable/list_selector"
+            android:drawableRight="@drawable/ic_close_circle_white_24dp"
+            android:drawableEnd="@drawable/ic_close_circle_white_24dp"
+            android:drawablePadding="@dimen/DIMEN_8PX"
+            app:baseColor="@color/white"
+            app:maxCharacters="12"
+            app:floatingLabel="highlight"
+            app:primaryColor="@color/white"/>
+        
+        <com.yh.materialdesign.edittext.MaterialEditText
+            android:id="@+id/met_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/DIMEN_12PX"
+            android:hint="@string/login_password"
+            android:imeOptions="actionDone"
+            android:drawableRight="@drawable/ic_close_circle_white_24dp"
+            android:drawableEnd="@drawable/ic_close_circle_white_24dp"
+            android:inputType="textPassword"
+            app:baseColor="@color/white"
+            app:floatingLabel="highlight"
+            app:maxCharacters="32"
+            app:primaryColor="@color/white"
+            app:singleLineEllipsis="true" />
+        
+        <LinearLayout 
+        	android:layout_width="match_parent"
+        	android:layout_height="wrap_content"
+        	android:orientation="horizontal" >
+        	
+            <com.yh.materialdesign.views.CheckBox
+                android:id="@+id/cb_recall_password"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#008080"
+                app:check="true" />
+
+            <TextView
+                android:id="@+id/tv_recall_password"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:text="@string/login_recall_password" />
+
+        </LinearLayout>
+        
+    </LinearLayout>
+
+    <com.yh.materialdesign.views.ButtonFlat
+            android:id="@+id/btn_login"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/DIMEN_48PX"
+            android:background="@color/white"
+            android:layout_below="@id/ll_login_input"
+            android:layout_marginLeft="@dimen/DIMEN_48PX"
+            android:layout_marginRight="@dimen/DIMEN_48PX"
+            android:onClick="onClick"
+            android:text="@string/login_btnname"
+            app:rippleSpeed="50"
+            app:background="@drawable/btn_background"/>
+    
+    <com.yh.materialdesign.views.ButtonFlat
+            android:id="@+id/btn_forgot_password"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/DIMEN_48PX"
+            android:background="@color/white"
+            android:layout_alignParentBottom="true"
+        	android:layout_alignParentLeft="true"
+        	android:layout_alignParentStart="true"
+        	android:onClick="onClick"
+        	app:rippleSpeed="50"
+            android:text="@string/forgot_password"/>
+    
+    <LinearLayout 
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/DIMEN_48PX"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:orientation="horizontal" >
+        
+        <com.yh.materialdesign.views.ButtonFlat
+            android:id="@+id/btn_local_login"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/DIMEN_48PX"
+            android:background="@color/white"
+            android:onClick="onClick"
+            app:rippleSpeed="50"
+            android:text="@string/local_login_btnname"/>
+        
+        <View
+            android:layout_width="0.1dp"
+            android:layout_height="@dimen/DIMEN_24PX"
+            android:layout_gravity="center"
+            android:background="@color/white" />
+        
+        <com.yh.materialdesign.views.ButtonFlat
+            android:id="@+id/btn_register"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/DIMEN_48PX"
+            android:background="@color/white"
+            android:onClick="onClick"
+            app:rippleSpeed="50"
+            android:text="@string/register_btnname"/>
+        
+    </LinearLayout>
+    
+    </RelativeLayout>
+
+</ViewFlipper>

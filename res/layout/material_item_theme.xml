@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+   android:id="@+id/RelativeLayout1"
+   android:layout_width="wrap_content"  
+   android:layout_height="fill_parent"
+   android:paddingBottom="@dimen/DIMEN_6PX"
+   android:paddingTop="@dimen/DIMEN_14PX">
+   <ImageView  
+      android:id="@+id/iv_theme"
+      android:layout_width="@dimen/DIMEN_144PX"
+      android:layout_height="@dimen/DIMEN_256PX"
+      android:contentDescription="@string/app_name"
+      android:layout_centerHorizontal="true"
+      android:src="@drawable/theme_default"/>
+   <TextView  
+      android:id="@+id/tv_theme_name"
+      android:layout_below="@+id/iv_theme"
+      android:layout_height="wrap_content"
+      android:layout_width="@dimen/DIMEN_134PX"
+      android:text="@string/theme_default"
+      android:textColor="@color/black"
+      android:layout_margin="@dimen/DIMEN_5PX"
+      android:layout_centerHorizontal="true"  />
+   
+   <RelativeLayout
+        	android:id="@+id/btn_setting"
+        	android:layout_width="@dimen/DIMEN_134PX"
+        	android:layout_height="@dimen/DIMEN_32PX"
+        	android:background="@drawable/content_bg"
+        	android:layout_centerHorizontal="true"  
+        	android:gravity="center"
+        	android:layout_below="@+id/tv_theme_name"
+        	android:clickable="true" >
+
+       <ImageView  
+      		android:id="@+id/iv_btn_ok"
+      		android:layout_width="@dimen/DIMEN_18PX"
+      		android:layout_height="@dimen/DIMEN_18PX"
+      		android:contentDescription="@string/app_name"
+      		android:layout_centerVertical="true"
+      		android:visibility="gone"
+      		android:src="@drawable/ic_circle_check_white_48px"/>
+       
+		<TextView
+		    android:id="@+id/tv_btn_ok"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/iv_btn_ok"
+            android:layout_toEndOf="@id/iv_btn_ok"
+            android:layout_marginLeft="@dimen/DIMEN_10PX"
+            android:layout_marginStart="@dimen/DIMEN_10PX"
+            android:gravity="center"
+            android:textColorHighlight="@color/menu_background"
+            android:textColor="@color/menu_background"
+            android:text="@string/theme_apply" />
+	</RelativeLayout>
+</RelativeLayout>

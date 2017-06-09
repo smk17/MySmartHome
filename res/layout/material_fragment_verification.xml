@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/content_background"
+    android:orientation="vertical" >
+	
+    <TextView
+		android:id="@+id/tv_verification_recall"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:gravity="center"
+		android:layout_margin="@dimen/DIMEN_24PX"
+		android:textColor="@color/black"/>
+	
+	<com.yh.materialdesign.edittext.MaterialEditText
+		android:id="@+id/met_verify_code"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="@dimen/DIMEN_12PX"
+		android:layout_marginBottom="@dimen/DIMEN_12PX"
+		android:layout_marginLeft="@dimen/DIMEN_48PX"
+		android:layout_marginRight="@dimen/DIMEN_48PX"
+		android:hint="@string/register_verify_code"
+		android:drawableRight="@drawable/ic_close_circle_white_24dp"
+		android:drawableEnd="@drawable/ic_close_circle_white_24dp"
+		android:inputType="phone"
+		android:visibility="gone"
+		app:baseColor="@color/title_background"
+		app:floatingLabel="highlight"
+		app:maxCharacters="4"
+		app:primaryColor="@color/title_background"
+		app:singleLineEllipsis="true" />
+	
+	<TextView
+		android:id="@+id/tv_verify_code"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:gravity="center"
+		android:visibility="gone"
+		android:layout_marginBottom="@dimen/DIMEN_24PX"
+		android:textColor="@color/black"
+		android:text="@string/register_rev_verify_code" />
+		
+	<com.yh.materialdesign.views.ButtonFlat
+		android:id="@+id/btn_next"
+		android:layout_width="match_parent"
+		android:layout_height="@dimen/DIMEN_48PX"
+		android:background="@color/white"
+		android:layout_marginLeft="@dimen/DIMEN_48PX"
+		android:layout_marginRight="@dimen/DIMEN_48PX"
+		android:text="@string/next_name"/>
+</LinearLayout>

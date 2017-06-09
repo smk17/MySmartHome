@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"    
+    android:background="#b0cccccc"
+    android:orientation="vertical" >
+        
+    <LinearLayout 
+        android:id="@+id/content"
+    	android:layout_width="match_parent"
+    	android:layout_height="match_parent" 
+    	android:orientation="vertical" 
+    	android:background="@color/content_background">
+        
+        <LinearLayout
+        android:id="@+id/tabs"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@color/white"
+        android:gravity="center">
+
+        <com.yh.materialdesign.views.DropdownButton
+            android:id="@+id/chooseMainDevice"
+            android:layout_width="0px"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+        
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/divide" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        
+        <com.yh.materialdesign.views.RippleBackground		
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" 
+		android:background="@color/content_background"
+		android:id="@+id/rippleBackground"		
+		app:rb_color="#0099CC"
+		app:rb_radius="@dimen/DIMEN_16PX"
+		app:rb_rippleAmount="12"
+		app:rb_duration="3000"
+		app:rb_scale="12">
+		
+		<ImageView
+		    android:id="@+id/centerImage"
+			android:layout_width="@dimen/DIMEN_64PX"
+			android:layout_height="@dimen/DIMEN_64PX"
+			android:layout_centerInParent="true"
+			android:contentDescription="@string/app_name"			
+			android:src="@drawable/phone1"/>
+		<TextView
+            android:id="@+id/tv_tips"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/DIMEN_56PX"
+            android:layout_above="@id/centerImage"
+            android:layout_marginBottom="@dimen/DIMEN_86PX"
+            android:gravity="center"
+            android:textColor="@color/title_background"
+            android:textSize="18sp"
+            android:text="@string/app_name" />
+		
+	</com.yh.materialdesign.views.RippleBackground>	
+
+        <View
+            android:id="@+id/mask"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#80000000" />
+
+        <com.yh.materialdesign.views.DropdownListView
+            android:id="@+id/dropdownMainDevice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+
+    </FrameLayout>
+	    
+	</LinearLayout>
+	
+    
+    <RelativeLayout 
+	    android:id="@+id/result"
+    	android:layout_width="match_parent"
+    	android:layout_height="match_parent" 
+    	android:layout_margin="@dimen/DIMEN_16PX"
+    	android:visibility="gone"
+    	android:layout_gravity="center_horizontal"
+    	android:gravity="center"
+    	android:background="@android:color/transparent">
+	    
+	    <TextView
+            android:id="@+id/result_title"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/DIMEN_56PX"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:background="@color/content_background"
+            android:textColor="@color/title_background"
+            android:textSize="18sp"
+            android:text="@string/match_device_name" />
+	    
+	    <ListView
+            android:id="@+id/device_list"
+        	android:cacheColorHint="@android:color/transparent"
+        	android:layout_width="match_parent"
+        	android:layout_height="wrap_content" 
+        	android:layout_centerHorizontal="true"
+        	android:scrollbarThumbVertical="@color/title_background"
+        	android:layout_below="@id/result_title"
+    		android:scrollbars="vertical"
+        	android:listSelector="@drawable/list_selector"
+        	android:background="@color/content_background"
+        	android:divider="@null"/>
+	    
+	    <com.yh.materialdesign.views.LayoutRipple
+        	android:id="@+id/saveButtons"
+        	android:layout_width="match_parent"
+        	android:layout_height="48dp"
+        	android:layout_centerHorizontal="true"
+        	android:background="@color/menu_background"
+        	android:layout_below="@id/device_list"
+        	android:gravity="center"
+        	android:clickable="true" >
+
+        	<TextView
+            	android:layout_width="wrap_content"
+            	android:layout_height="wrap_content"
+            	android:layout_centerVertical="true"
+            	android:gravity="center"
+            	android:textSize="18sp"
+            	android:textColorHighlight="@color/white"
+            	android:textColor="@color/white"
+            	android:text="@string/save_name" />
+    	</com.yh.materialdesign.views.LayoutRipple>
+	    
+	</RelativeLayout>
+	
+</LinearLayout>

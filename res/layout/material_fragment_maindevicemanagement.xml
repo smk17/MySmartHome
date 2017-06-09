@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"    
+    android:orientation="vertical" >
+        
+    <RelativeLayout 
+    	android:layout_width="match_parent"
+    	android:layout_height="match_parent" 
+    	android:background="@color/content_background">
+	    
+        <include 
+        android:id="@+id/device_load"
+        layout="@layout/activity_load"/>
+        
+	    <ListView
+            android:id="@+id/device_list"
+        	android:cacheColorHint="@android:color/transparent"
+        	android:layout_width="match_parent"
+        	android:layout_height="wrap_content" 
+        	android:layout_centerHorizontal="true"
+        	android:scrollbarThumbVertical="@color/title_background"
+    		android:scrollbars="vertical"
+    		android:visibility="gone"
+        	android:listSelector="@drawable/list_selector"
+        	android:background="@color/content_background"
+        	android:divider="@null"/>
+	    
+	</RelativeLayout>
+
+</LinearLayout>

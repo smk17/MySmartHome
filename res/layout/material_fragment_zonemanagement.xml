@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"    
+    android:id="@+id/container"
+    android:orientation="vertical" >
+        
+    <LinearLayout 
+    	android:layout_width="match_parent"
+    	android:layout_height="match_parent" 
+    	android:orientation="vertical" 
+    	android:background="@color/content_background">
+        
+        <LinearLayout
+        android:id="@+id/tabs"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/DIMEN_48PX"
+        android:background="@color/white"
+        android:gravity="center">
+
+        <com.yh.materialdesign.views.DropdownButton
+            android:id="@+id/chooseMainDevice"
+            android:layout_width="0px"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+        
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/divide" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        
+        <include 
+        	android:id="@+id/device_load"        
+        	layout="@layout/activity_load"/>
+
+        <ListView
+            android:id="@+id/device_list"
+        	android:cacheColorHint="@android:color/transparent"
+        	android:layout_width="match_parent"
+        	android:layout_height="match_parent" 
+        	android:scrollbarThumbVertical="@color/title_background"
+    		android:scrollbars="vertical"
+    		android:visibility="gone"
+        	android:listSelector="@drawable/list_selector"
+        	android:background="@color/content_background"
+        	android:divider="@null"/>
+
+        <View
+            android:id="@+id/mask"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#80000000" />
+
+        <com.yh.materialdesign.views.DropdownListView
+            android:id="@+id/dropdownMainDevice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+
+    </FrameLayout>
+	    
+	</LinearLayout>
+
+</LinearLayout>

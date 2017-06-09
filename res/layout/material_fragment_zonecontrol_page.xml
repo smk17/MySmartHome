@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent"
+    android:orientation="vertical" >
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/device_refreshable"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+        	<ListView
+            android:id="@+id/device_list"
+        	android:cacheColorHint="@android:color/transparent"
+        	android:layout_width="match_parent"
+        	android:layout_height="match_parent" 
+        	android:scrollbarThumbVertical="@color/title_background"
+    		android:scrollbars="vertical"
+        	android:listSelector="@drawable/list_selector"
+        	android:background="@android:color/transparent"
+        	android:divider="@null"/>
+        
+    </android.support.v4.widget.SwipeRefreshLayout>
+    
+</RelativeLayout>
